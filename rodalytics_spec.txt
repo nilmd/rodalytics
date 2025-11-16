@@ -1,0 +1,61 @@
+RODALYTICS — DATA COLLECTOR SPEC (PLAIN TEXT FOR COPILOT)
+
+Goal
+Create a simple Node.js script that runs every hour (via GitHub Actions) to:
+1. Fetch RSS data from all Rodalies lines.
+2. Parse the XML.
+3. Extract incidents.
+4. Store all unique incidents in a single SQLite database.
+5. Keep a clean structure easy to expand later into a website.
+
+Tech Stack
+- Node.js + npm
+- sqlite3 (local database file: data/rodalytics.db)
+- xml2js (RSS parsing)
+- node-fetch (HTTP requests)
+- GitHub Actions cron to run every hour
+
+Folder Structure
+/collector
+  /src
+    fetch.js
+    store.js
+    lines.js
+    run.js
+  /data
+    rodalytics.db
+  package.json
+.github/workflows/collector.yml
+
+RSS Sources
+module.exports = [
+  { line: "R1", url: "https://www.gencat.cat/rodalies/incidencies_rodalies_rss_r1_ca_ES.xml" },
+  { line: "R2", url: "https://www.gencat.cat/rodalies/incidencies_rodalies_rss_r2_ca_ES.xml" },
+  { line: "R2 Nord", url: "https://www.gencat.cat/rodalies/incidencies_rodalies_rss_r2n_ca_ES.xml" },
+  { line: "R2 Sud", url: "https://www.gencat.cat/rodalies/incidencies_rodalies_rss_r2s_ca_ES.xml" }
+];
+
+Database Schema (SQLite)
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+line TEXT,
+title TEXT,
+description TEXT,
+published_at TEXT,
+detected_at TEXT,
+hash TEXT UNIQUE
+
+Script Logic (run.js)
+1. Load all line URLs.
+2. Fetch RSS XML.
+3. Parse XML.
+4. Extract items.
+5. Generate hash.
+6. Insert if new.
+
+GitHub Actions Workflow
+- cron: "0 * * * *"  # hourly
+- checkout
+- install node
+- install deps
+- run collector
+- commit DB
