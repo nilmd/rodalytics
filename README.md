@@ -48,9 +48,11 @@ rodalytics/
 
 ## Lines Covered
 
-- R1, R2, R2 Nord, R2 Sud
-- R3, R4, R7, R8
-- R11, R12, R13, R14, R15, R16, R17
+- Servei de rodalia de Barcelona: R1, R2, R2 Nord, R2 Sud, R3, R4, R7, R8
+- Serveis regionals: R11, R12, R13, R14, R15, R16, R17
+- Servei de rodalia del Camp de Tarragona: RT1, R17
+- Servei de rodalia de Girona: RG1
+- Servei de rodalia de Lleida: RL1
 
 ## Database Schema
 
